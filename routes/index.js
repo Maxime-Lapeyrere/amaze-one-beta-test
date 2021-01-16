@@ -5,52 +5,52 @@ var Products = [
   {
     name: "Apple watch",
     price: 300,
-    image: "/images/apple-watch.png",
+    image: "https://res.cloudinary.com/dmxl7mxjn/image/upload/v1610797297/apple-watch_kzs9p2.png",
     quantity : 1
   }, {
     name: "Porte document",
     price: 76,
-    image: "/images/porte-doc.png",
+    image: "https://res.cloudinary.com/dmxl7mxjn/image/upload/v1610797297/porte-doc_j5ftxg.png",
     quantity : 1
   }, {
     name: "DJI mavic air",
     price: 989,
-    image: "/images/dji-mavic-air.png",
+    image: "https://res.cloudinary.com/dmxl7mxjn/image/upload/v1610797297/dji-mavic-air_vz0q2j.png",
     quantity : 1
   }, {
     name: "Oculus",
     price: 342,
-    image: "/images/oculus.png",
+    image: "https://res.cloudinary.com/dmxl7mxjn/image/upload/v1610797296/oculus_fx994y.png",
     quantity : 1
   }, {
     name: "Bose QC35",
     price: 155,
-    image: "/images/bose-qc35.png",
+    image: "https://res.cloudinary.com/dmxl7mxjn/image/upload/v1610797297/bose-qc35_hdmf0g.jpg",
     quantity : 1
   }, {
     name: "Xiaomi-m365",
     price: 674,
-    image: "/images/xiaomi-m365.png",
+    image: "https://res.cloudinary.com/dmxl7mxjn/image/upload/v1610797297/xiaomi-m365_s869vd.png",
     quantity : 1
   }, {
     name: "BRIG Eagle 380",
     price: 15500,
-    image: "/images/BRIG-Eagle-380.png",
+    image: "https://res.cloudinary.com/dmxl7mxjn/image/upload/v1610797297/BRIG-Eagle-380_kypwux.png",
     quantity : 1
   }, {
     name: "Linda Razer",
     price: 897,
-    image: "/images/linda.png",
+    image: "https://res.cloudinary.com/dmxl7mxjn/image/upload/v1610797297/linda_tjpqfo.png",
     quantity : 1
   }, {
     name: "Fort 500",
     price: 67,
-    image: "/images/fort-500.png",
+    image: "https://res.cloudinary.com/dmxl7mxjn/image/upload/v1610797297/fort-500_vdw6rj.png",
     quantity : 1
   }, {
     name: "OnePlus 6",
     price: 540,
-    image: "/images/one-plus6.png",
+    image: "https://res.cloudinary.com/dmxl7mxjn/image/upload/v1610797297/one-plus6_orgs0k.png",
     quantity : 1
   }
 ]
@@ -64,6 +64,16 @@ router.get('/', function(req, res, next) {
     basketQuantity += req.session.panier[i].quantity 
   }
   res.render('index', {Products, panier : req.session.panier, basketQuantity});
+});
+router.get('/basket', function(req, res, next) {
+  if(req.session.panier == undefined){
+    req.session.panier = []
+    }
+    var basketQuantity=0
+  for(i=0; i<req.session.panier.length; i++){
+    basketQuantity += req.session.panier[i].quantity 
+  }
+  res.render('basket', {Products, panier : req.session.panier, basketQuantity});
 });
 
 router.get('/buy', function(req, res, next) {
@@ -181,9 +191,9 @@ const stripe = Stripe('sk_test_51IACigCKA7eVzOgNAdO4Kz87IXax8btt3JpJ9hrBhjsz57wt
 
     mode: 'payment',
 
-    success_url: 'https://fierce-ravine-70664.herokuapp.com/success',
+    success_url: 'https://intense-refuge-88192.herokuapp.com/success',
 
-    cancel_url: 'https://fierce-ravine-70664.herokuapp.com/',
+    cancel_url: 'https://intense-refuge-88192.herokuapp.com/',
 
   });
 console.log(session)
@@ -198,4 +208,21 @@ router.get('/success', function(req, res, next) {
 }
 );
 
+router.get('/paid', function(req, res, next) {
+  
+    req.session.panier = []
+    
+    var basketQuantity=0
+  for(i=0; i<req.session.panier.length; i++){
+    basketQuantity += req.session.panier[i].quantity 
+  }
+  res.render('index', {Products, panier : req.session.panier, basketQuantity});
+});
+
+router.get('/success', function(req, res, next) {
+  
+  res.render('success');
+  
+}
+);
 module.exports = router;

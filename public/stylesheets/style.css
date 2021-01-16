@@ -56,3 +56,12 @@ img{
 .laquantit{
   width: 3rem;
 }
+.centre{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.end{
+  margin-top: 18rem;
+}
