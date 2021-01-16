@@ -61,7 +61,7 @@ router.get('/', function(req, res, next) {
     }
     var basketQuantity=0
   for(i=0; i<req.session.panier.length; i++){
-    basketQuantity += req.session.panier[i].quantity 
+    basketQuantity += parseInt(req.session.panier[i].quantity)
   }
   res.render('index', {Products, panier : req.session.panier, basketQuantity});
 });
@@ -173,7 +173,7 @@ const stripe = Stripe('sk_test_51IACigCKA7eVzOgNAdO4Kz87IXax8btt3JpJ9hrBhjsz57wt
         currency: 'eur',
         product_data: {
           name: req.session.panier[i].name,
-          images : [req.session.panier[i].src]
+          images : [req.session.panier[i].image]
         },
 
         unit_amount: parseInt(req.session.panier[i].price)*100,
@@ -197,6 +197,7 @@ const stripe = Stripe('sk_test_51IACigCKA7eVzOgNAdO4Kz87IXax8btt3JpJ9hrBhjsz57wt
 
   });
 console.log(session)
+
 
   res.json({ id: session.id });
 });
